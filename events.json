@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "title": "Semesterauftakt-Party",
+    "description": "Feiere den Start des neuen Semesters mit DJ, Fotobox und günstigen Getränken.",
+    "location": "Berlin, Studierendenhaus HU",
+    "price": 5,
+    "date": "2025-10-10",
+    "time": "20:00",
+    "organizer": {
+      "name": "AStA HU Berlin",
+      "email": "kontakt@asta-hu.berlin",
+      "phone": "+49 30 1234567",
+      "reviewsCount": 128,
+      "rating": 4.6
+    },
+    "seatsTotal": 300,
+    "seatsReserved": 180,
+    "seatsAvailable": 120,
+    "types": ["Party", "Semesterstart", "Campus"]
+  },
+  {
+    "id": 2,
+    "title": "Karriereabend IT & Start-ups",
+    "description": "Kurzvorträge von Gründerinnen und Gründern, Networking und Praktikumsangebote.",
+    "location": "Munich, UnternehmerTUM",
+    "price": 0,
+    "date": "2025-10-14",
+    "time": "18:30",
+    "organizer": {
+      "name": "UnternehmerTUM Events",
+      "email": "events@unternehmertum.de",
+      "phone": "+49 89 123456",
+      "reviewsCount": 210,
+      "rating": 4.7
+    },
+    "seatsTotal": 200,
+    "seatsReserved": 150,
+    "seatsAvailable": 50,
+    "types": ["Karriere", "Vortrag", "Networking"]
+  },
+  {
+    "id": 3,
+    "title": "Kulturabend: Poetry Slam",
+    "description": "Offene Bühne für neue Stimmen – bring deinen Text mit oder genieße die Show.",
+    "location": "Hamburg, Campusbühne UHH",
+    "price": 3,
+    "date": "2025-10-16",
+    "time": "19:00",
+    "organizer": {
+      "name": "CampusKultur UHH",
+      "email": "kultur@uni-hamburg.de",
+      "phone": "+49 40 7654321",
+      "reviewsCount": 92,
+      "rating": 4.5
+    },
+    "seatsTotal": 120,
+    "seatsReserved": 85,
+    "seatsAvailable": 35,
+    "types": ["Kultur", "Poetry Slam", "Bühne"]
+  },
+  {
+    "id": 4,
+    "title": "Hackathon Nachhaltigkeit",
+    "description": "48 Stunden Coden, Designen und Pitchen für grüne Lösungen. Teams vor Ort gebildet.",
+    "location": "Cologne, TH Köln – Makerspace",
+    "price": 0,
+    "date": "2025-10-18",
+    "time": "09:00",
+    "organizer": {
+      "name": "TH Köln Makerspace",
+      "email": "makerspace@th-koeln.de",
+      "phone": "+49 221 987654",
+      "reviewsCount": 176,
+      "rating": 4.8
+    },
+    "seatsTotal": 150,
+    "seatsReserved": 110,
+    "seatsAvailable": 40,
+    "types": ["Hackathon", "Nachhaltigkeit", "Tech"]
+  },
+  {
+    "id": 5,
+    "title": "Sprachtandem-Abend",
+    "description": "Lerne neue Leute kennen und übe Sprachen in lockerer Café-Atmosphäre.",
+    "location": "Leipzig, StuRa Café",
+    "price": 0,
+    "date": "2025-10-09",
+    "time": "18:00",
+    "organizer": {
+      "name": "StuRa Leipzig",
+      "email": "kontakt@stura-leipzig.de",
+      "phone": "+49 341 112233",
+      "reviewsCount": 64,
+      "rating": 4.4
+    },
+    "seatsTotal": 80,
+    "seatsReserved": 60,
+    "seatsAvailable": 20,
+    "types": ["Sprache", "Networking", "Meetup"]
+  },
+  {
+    "id": 6,
+    "title": "Kinonacht Klassiker",
+    "description": "Drei Kultfilme im Original mit Untertiteln, Popcorn inklusive.",
+    "location": "Dresden, TU-Kino",
+    "price": 4,
+    "date": "2025-10-25",
+    "time": "19:30",
+    "organizer": {
+      "name": "TU Dresden Filmkreis",
+      "email": "kino@tu-dresden.de",
+      "phone": "+49 351 998877",
+      "reviewsCount": 83,
+      "rating": 4.6
+    },
+    "seatsTotal": 180,
+    "seatsReserved": 90,
+    "seatsAvailable": 90,
+    "types": ["Kino", "Film", "Kultur"]
+  },
+  {
+    "id": 7,
+    "title": "Jobmesse Campus",
+    "description": "Unternehmen aus Technik, Medien und Beratung stellen sich vor – CV-Check vor Ort.",
+    "location": "Stuttgart, Messehalle Universität",
+    "price": 0,
+    "date": "2025-10-22",
+    "time": "10:00",
+    "organizer": {
+      "name": "Career Service Uni Stuttgart",
+      "email": "career@uni-stuttgart.de",
+      "phone": "+49 711 445566",
+      "reviewsCount": 245,
+      "rating": 4.7
+    },
+    "seatsTotal": 500,
+    "seatsReserved": 420,
+    "seatsAvailable": 80,
+    "types": ["Messe", "Karriere"]
+  },
+  {
+    "id": 8,
+    "title": "Open-Air Yoga für Studierende",
+    "description": "Entspannende Yogasession für alle Levels. Bitte Matte oder Handtuch mitbringen.",
+    "location": "Freiburg, Seepark Wiese",
+    "price": 0,
+    "date": "2025-10-12",
+    "time": "11:00",
+    "organizer": {
+      "name": "Hochschulsport Freiburg",
+      "email": "sport@uni-freiburg.de",
+      "phone": "+49 761 223344",
+      "reviewsCount": 57,
+      "rating": 4.3
+    },
+    "seatsTotal": 60,
+    "seatsReserved": 45,
+    "seatsAvailable": 15,
+    "types": ["Sport", "Gesundheit", "Outdoor"]
+  },
+  {
+    "id": 9,
+    "title": "Game Jam Weekend",
+    "description": "Erstelle in kleinen Teams ein Spiel innerhalb von 36 Stunden – Mentoring inklusive.",
+    "location": "Dortmund, FH – Medienlabor",
+    "price": 0,
+    "date": "2025-10-19",
+    "time": "10:00",
+    "organizer": {
+      "name": "FH Dortmund Medienlabor",
+      "email": "medienlabor@fh-dortmund.de",
+      "phone": "+49 231 334455",
+      "reviewsCount": 101,
+      "rating": 4.7
+    },
+    "seatsTotal": 100,
+    "seatsReserved": 75,
+    "seatsAvailable": 25,
+    "types": ["Game Jam", "Entwicklung", "Tech"]
+  },
+  {
+    "id": 10,
+    "title": "Internationales Dinner",
+    "description": "Bring ein Gericht aus deinem Heimatland mit – gemeinsames Buffet & Musik.",
+    "location": "Heidelberg, Internationales Studienzentrum",
+    "price": 0,
+    "date": "2025-10-23",
+    "time": "18:30",
+    "organizer": {
+      "name": "Internationales Studienzentrum Heidelberg",
+      "email": "iszh@uni-heidelberg.de",
+      "phone": "+49 6221 556677",
+      "reviewsCount": 139,
+      "rating": 4.6
+    },
+    "seatsTotal": 120,
+    "seatsReserved": 95,
+    "seatsAvailable": 25,
+    "types": ["Community", "Essen", "International"]
+  }
+]

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="de" class="h-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EventBuddy - Angebot erstellen</title>
+
+  <!-- Bootstrap & Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 64px 0;
+    }
+    .navbar-dark { background:#0b1026 !important; }
+
+    .card-soft {
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+
+    .price-badge {
+      border-radius: 999px;
+      padding: .35rem .7rem;
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+    }
+    .badge-accom { background: #e8f5e9; color: #1b5e20; border-color:#c8e6c9; }
+    .badge-ride  { background: #e0f2fe; color: #0c4a6e; border-color:#bae6fd; }
+
+    .form-control, .form-select {
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      padding: .9rem .9rem;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, .12);
+    }
+
+    .section-title {
+      font-size: .95rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #6b7280;
+      margin-bottom: .5rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 576px) {
+      .hero-section { padding: 56px 0; }
+    }
+  </style>
+</head>
+<body class="h-100 d-flex flex-column">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-md navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="index.html">EventBuddy</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+              aria-controls="mainNav" aria-expanded="false" aria-label="Navigation umschalten">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNav">
+        <!-- Gast -->
+        <ul class="navbar-nav ms-auto align-items-md-center" id="guestNav">
+          <li class="nav-item"><a class="nav-link" href="login.html">
+            <i class="fas fa-right-to-bracket me-1"></i>Anmelden</a></li>
+          <li class="nav-item ms-md-2">
+            <a class="btn btn-outline-light btn-sm mt-2 mt-md-0" href="register.html">
+              <i class="fas fa-user-plus me-1"></i>Registrieren
+            </a>
+          </li>
+        </ul>
+
+        <!-- Eingeloggt -->
+        <ul class="navbar-nav ms-auto align-items-md-center d-none" id="userNav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" aria-current="page" href="#" id="angebotDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Angebot
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="angebotDropdown">
+              <li><a class="dropdown-item active" href="angebot-erstellen.html">Angebot erstellen</a></li>
+              <li><a class="dropdown-item" href="angebote.html">Liste der Angebote</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="chat.html">Chat</a></li>
+          <li class="nav-item"><a class="nav-link" href="reservations.html">Meine Reservierungen</a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html">Profil</a></li>
+          <li class="nav-item ms-md-2">
+            <a class="btn btn-light btn-sm mt-2 mt-md-0" href="#" id="logoutLink">
+              <i class="fas fa-arrow-right-from-bracket me-1"></i>Abmelden
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero-section text-center">
+    <div class="container">
+      <h1 class="display-6 fw-bold mb-2">Angebot erstellen</h1>
+      <p class="lead mb-0">Unterkunft oder Fahrt anbieten – schnell und unkompliziert</p>
+    </div>
+  </header>
+
+  <!-- Inhalt -->
+  <main class="container my-4 my-md-5 flex-grow-1">
+    <div id="alertsArea" class="mb-3"></div>
+
+    <div class="row gy-4">
+      <!-- Formular -->
+      <div class="col-lg-7">
+        <div class="card card-soft p-3 p-md-4">
+          <form id="offerForm" novalidate>
+            <div class="mb-3">
+              <div class="section-title">Basis</div>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label for="type" class="form-label">Typ</label>
+                  <select id="type" class="form-select" required>
+                    <option value="accommodation">Unterkunft</option>
+                    <option value="ride">Fahrt</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="price" class="form-label">Preis (in €)</label>
+                  <input id="price" type="number" min="0" step="1" class="form-control" placeholder="z. B. 22" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Unterkunft Felder -->
+            <div id="accomFields" class="mb-3">
+              <div class="section-title">Unterkunft</div>
+              <label for="location" class="form-label">Ort / Adresse</label>
+              <input id="location" type="text" class="form-control" placeholder="z. B. Berlin, Studentenwohnheim Adlershof">
+            </div>
+
+            <!-- Fahrt Felder -->
+            <div id="rideFields" class="mb-3 d-none">
+              <div class="section-title">Fahrt</div>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label for="departure" class="form-label">Abfahrt</label>
+                  <input id="departure" type="text" class="form-control" placeholder="z. B. München Hbf">
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="arrival" class="form-label">Ankunft</label>
+                  <input id="arrival" type="text" class="form-control" placeholder="z. B. Augsburg Hbf">
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="departureTime" class="form-label">Abfahrtszeit (HH:MM)</label>
+                  <input id="departureTime" type="time" class="form-control">
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="duration" class="form-label">Dauer (HH:MM)</label>
+                  <input id="duration" type="text" pattern="^\\d{2}:\\d{2}$" class="form-control" placeholder="z. B. 00:45">
+                </div>
+              </div>
+            </div>
+
+            <!-- Plätze -->
+            <div class="mb-3">
+              <div class="section-title">Plätze</div>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label for="seatsTotal" class="form-label">Gesamtplätze</label>
+                  <input id="seatsTotal" type="number" min="1" step="1" class="form-control" placeholder="z. B. 4" required>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="seatsAvailable" class="form-label">Freie Plätze</label>
+                  <input id="seatsAvailable" type="number" min="0" step="1" class="form-control" placeholder="z. B. 3" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Aktionen -->
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-plus me-1"></i> Angebot erstellen
+              </button>
+              <button type="button" id="resetBtn" class="btn btn-outline-secondary">
+                <i class="fa-solid fa-rotate-left me-1"></i> Zurücksetzen
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Live-Vorschau -->
+      <div class="col-lg-5">
+        <div class="card card-soft p-3 p-md-4">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <span id="previewType" class="price-badge badge-accom">Unterkunft</span>
+            <span id="previewPrice" class="price-badge">— €</span>
+          </div>
+          <h5 id="previewTitle" class="mb-2">Ort / Adresse</h5>
+          <div id="previewMeta" class="small text-secondary">
+            <div class="mb-1"><i class="fa-solid fa-location-dot me-2"></i>—</div>
+            <div><i class="fa-solid fa-users me-2"></i>0 / 0 Plätze frei</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-dark text-light py-4 mt-auto">
+    <div class="container text-center">
+      <p>&copy; <span id="year"></span> EventBuddy. Alle Rechte vorbehalten.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // === Auth UI ===
+    function isLoggedIn() { return localStorage.getItem('eb_auth') === 'true'; }
+
+    function updateNav() {
+      const guestNav = document.getElementById('guestNav');
+      const userNav  = document.getElementById('userNav');
+      if (isLoggedIn()) {
+        guestNav.classList.add('d-none');
+        userNav.classList.remove('d-none');
+      } else {
+        userNav.classList.add('d-none');
+        guestNav.classList.remove('d-none');
+      }
+    }
+
+    function setupLogout() {
+      const logout = document.getElementById('logoutLink');
+      if (!logout) return;
+      logout.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('eb_auth');
+        localStorage.removeItem('eb_user');
+        updateNav();
+        document.querySelector('.navbar-toggler')?.click();
+        window.location.href = 'index.html';
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!isLoggedIn()) { window.location.replace('login.html'); return; }
+      updateNav();
+      setupLogout();
+      wireForm();
+      updatePreview(); // initial
+    });
+
+    // === Form helpers ===
+    const fmtEuro = (v) => (v === '' || v == null ? '—' : `${Number(v)} €`);
+
+    function qs(id){ return document.getElementById(id); }
+
+    function showAlert(type, html) {
+      const area = qs('alertsArea');
+      const div = document.createElement('div');
+      div.className = `alert alert-${type} alert-dismissible fade show`;
+      div.innerHTML = html + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+      area.innerHTML = '';
+      area.appendChild(div);
+      div.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function toggleBlocks() {
+      const type = qs('type').value;
+      if (type === 'accommodation') {
+        qs('accomFields').classList.remove('d-none');
+        qs('rideFields').classList.add('d-none');
+      } else {
+        qs('rideFields').classList.remove('d-none');
+        qs('accomFields').classList.add('d-none');
+      }
+      updatePreview();
+    }
+
+    function updatePreview() {
+      const type = qs('type').value;
+      const price = qs('price').value;
+      const seatsA = qs('seatsAvailable').value || 0;
+      const seatsT = qs('seatsTotal').value || 0;
+
+      const pvType = qs('previewType');
+      const pvPrice = qs('previewPrice');
+      const pvTitle = qs('previewTitle');
+      const pvMeta  = qs('previewMeta');
+
+      pvType.textContent = type === 'accommodation' ? 'Unterkunft' : 'Fahrt';
+      pvType.className = 'price-badge ' + (type === 'accommodation' ? 'badge-accom' : 'badge-ride');
+      pvPrice.textContent = fmtEuro(price);
+
+      if (type === 'accommodation') {
+        const loc = qs('location').value || 'Ort / Adresse';
+        pvTitle.textContent = loc;
+        pvMeta.innerHTML = `
+          <div class="mb-1"><i class="fa-solid fa-location-dot me-2"></i>${loc || '—'}</div>
+          <div><i class="fa-solid fa-users me-2"></i>${seatsA} / ${seatsT} Plätze frei</div>
+        `;
+      } else {
+        const dep = qs('departure').value || '—';
+        const arr = qs('arrival').value || '—';
+        const depT = qs('departureTime').value || '—';
+        const dur = qs('duration').value || '—';
+        pvTitle.textContent = `${dep} → ${arr}`;
+        pvMeta.innerHTML = `
+          <div class="mb-1"><i class="fa-solid fa-route me-2"></i>${dep} → ${arr}</div>
+          <div class="mb-1"><i class="fa-regular fa-clock me-2"></i>${depT} · ${dur}</div>
+          <div><i class="fa-solid fa-users me-2"></i>${seatsA} / ${seatsT} Plätze frei</div>
+        `;
+      }
+    }
+
+    function wireForm() {
+      // champs => preview
+      ['type','price','location','departure','arrival','departureTime','duration','seatsAvailable','seatsTotal']
+        .forEach(id => qs(id).addEventListener('input', updatePreview));
+      qs('type').addEventListener('change', toggleBlocks);
+
+      // reset
+      qs('resetBtn').addEventListener('click', () => {
+        qs('offerForm').reset();
+        toggleBlocks();
+        showAlert('secondary', '<i class="fa-solid fa-rotate-left me-2"></i>Formular zurückgesetzt.');
+      });
+
+      // submit
+      qs('offerForm').addEventListener('submit', onSubmit);
+    }
+
+    function validateForm() {
+      const type = qs('type').value;
+      const price = Number(qs('price').value);
+      const seatsT = Number(qs('seatsTotal').value);
+      const seatsA = Number(qs('seatsAvailable').value);
+
+      const errs = [];
+      if (isNaN(price) || price < 0) errs.push('Preis muss ≥ 0 sein.');
+      if (!seatsT || seatsT < 1) errs.push('Gesamtplätze müssen ≥ 1 sein.');
+      if (isNaN(seatsA) || seatsA < 0) errs.push('Freie Plätze müssen ≥ 0 sein.');
+      if (seatsA > seatsT) errs.push('Freie Plätze dürfen die Gesamtplätze nicht überschreiten.');
+
+      if (type === 'accommodation') {
+        if (!qs('location').value.trim()) errs.push('Ort / Adresse für Unterkunft ist erforderlich.');
+      } else {
+        if (!qs('departure').value.trim()) errs.push('Abfahrt ist erforderlich.');
+        if (!qs('arrival').value.trim()) errs.push('Ankunft ist erforderlich.');
+        const t = qs('departureTime').value.trim();
+        const d = qs('duration').value.trim();
+        if (!t) errs.push('Abfahrtszeit ist erforderlich.');
+        if (!/^\d{2}:\d{2}$/.test(d)) errs.push('Dauer muss im Format HH:MM sein.');
+      }
+      return errs;
+    }
+
+    function buildOffer() {
+      const type = qs('type').value;
+
+      // einfache ID (Timestamp + Random)
+      const id = Number(Date.now().toString().slice(-9) + Math.floor(Math.random()*9));
+
+      const base = {
+        id,
+        type,
+        price: Number(qs('price').value),
+        location: type === 'accommodation' ? (qs('location').value.trim() || null) : null,
+        departure: type === 'ride' ? (qs('departure').value.trim() || null) : null,
+        arrival: type === 'ride' ? (qs('arrival').value.trim() || null) : null,
+        duration: type === 'ride' ? (qs('duration').value.trim() || null) : null,
+        departureTime: type === 'ride' ? (qs('departureTime').value.trim() || null) : null,
+        seatsAvailable: Number(qs('seatsAvailable').value),
+        seatsTotal: Number(qs('seatsTotal').value)
+      };
+      return base;
+    }
+
+    function saveOfferToLocalStorage(offer) {
+      const KEY = 'eb_custom_offers';
+      const all = JSON.parse(localStorage.getItem(KEY) || '[]');
+      all.push(offer);
+      localStorage.setItem(KEY, JSON.stringify(all));
+    }
+
+    function onSubmit(e) {
+      e.preventDefault();
+      const errs = validateForm();
+      if (errs.length) {
+        showAlert('danger', '<ul class="mb-0">' + errs.map(x => `<li>${x}</li>`).join('') + '</ul>');
+        return;
+      }
+      const offer = buildOffer();
+      saveOfferToLocalStorage(offer);
+
+      showAlert('success',
+        `<i class="fa-solid fa-check-circle me-2"></i>Dein Angebot wurde gespeichert (Simulation).
+         <div class="mt-2 small text-muted">Es wurde lokal unter <code>eb_custom_offers</code> abgelegt.</div>
+         <div class="mt-2"><a class="btn btn-sm btn-primary" href="angebote.html">
+           <i class="fa-regular fa-eye me-1"></i> Zu den Angeboten
+         </a></div>`
+      );
+      // optional: Formular zurücksetzen
+      // e.target.reset(); toggleBlocks(); updatePreview();
+    }
+  </script>
+</body>
+</html>

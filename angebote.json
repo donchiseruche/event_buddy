@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "type": "accommodation",
+    "price": 22,
+    "location": "Berlin, Studentenwohnheim Adlershof",
+    "departure": null,
+    "arrival": null,
+    "duration": null,
+    "departureTime": null,
+    "seatsAvailable": 3,
+    "seatsTotal": 4
+  },
+  {
+    "id": 2,
+    "type": "ride",
+    "price": 15,
+    "location": null,
+    "departure": "Munich Central Station",
+    "arrival": "Augsburg Central Station",
+    "duration": "00:45",
+    "departureTime": "08:30",
+    "seatsAvailable": 2,
+    "seatsTotal": 3
+  },
+  {
+    "id": 3,
+    "type": "accommodation",
+    "price": 28,
+    "location": "Hamburg, Shared flat near campus",
+    "departure": null,
+    "arrival": null,
+    "duration": null,
+    "departureTime": null,
+    "seatsAvailable": 1,
+    "seatsTotal": 1
+  },
+  {
+    "id": 4,
+    "type": "ride",
+    "price": 9,
+    "location": null,
+    "departure": "Cologne South Station",
+    "arrival": "Bonn Central Station",
+    "duration": "00:25",
+    "departureTime": "17:10",
+    "seatsAvailable": 3,
+    "seatsTotal": 4
+  },
+  {
+    "id": 5,
+    "type": "accommodation",
+    "price": 19,
+    "location": "Leipzig, Guesthouse at the Park",
+    "departure": null,
+    "arrival": null,
+    "duration": null,
+    "departureTime": null,
+    "seatsAvailable": 5,
+    "seatsTotal": 6
+  },
+  {
+    "id": 6,
+    "type": "ride",
+    "price": 20,
+    "location": null,
+    "departure": "Freiburg Central Station",
+    "arrival": "Stuttgart Central Station",
+    "duration": "02:05",
+    "departureTime": "14:20",
+    "seatsAvailable": 1,
+    "seatsTotal": 3
+  },
+  {
+    "id": 7,
+    "type": "accommodation",
+    "price": 25,
+    "location": "Dresden, Hostel Old Town",
+    "departure": null,
+    "arrival": null,
+    "duration": null,
+    "departureTime": null,
+    "seatsAvailable": 2,
+    "seatsTotal": 4
+  },
+  {
+    "id": 8,
+    "type": "ride",
+    "price": 12,
+    "location": null,
+    "departure": "Frankfurt South Station",
+    "arrival": "Darmstadt Central Station",
+    "duration": "00:35",
+    "departureTime": "10:15",
+    "seatsAvailable": 4,
+    "seatsTotal": 4
+  },
+  {
+    "id": 9,
+    "type": "accommodation",
+    "price": 30,
+    "location": "Heidelberg, Private room near university",
+    "departure": null,
+    "arrival": null,
+    "duration": null,
+    "departureTime": null,
+    "seatsAvailable": 1,
+    "seatsTotal": 2
+  },
+  {
+    "id": 10,
+    "type": "ride",
+    "price": 18,
+    "location": null,
+    "departure": "Berlin Central Station",
+    "arrival": "Potsdam Central Station",
+    "duration": "00:28",
+    "departureTime": "19:05",
+    "seatsAvailable": 2,
+    "seatsTotal": 5
+  }
+]

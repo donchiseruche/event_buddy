@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="de" class="h-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registrieren - EventBuddy</title>
+
+  <!-- Bootstrap & Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    .register-container {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .register-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+      padding: 40px 30px;
+    }
+    .register-title {
+      font-size: 28px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    .form-floating > .form-control {
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      padding: 1rem 0.75rem;
+      height: auto;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    .form-floating > .form-control:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+    .form-floating > .form-control.is-invalid {
+      border-color: #dc3545;
+    }
+    .btn-register {
+      background: #4f46e5;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: 600;
+      width: 100%;
+      color: white;
+      transition: all 0.3s ease;
+    }
+    .btn-register:hover {
+      background: #4338ca;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+      color: white;
+    }
+    .role-selection { margin-bottom: 20px; }
+    .role-option {
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    .role-option:hover,
+    .role-option.active {
+      border-color: #4f46e5;
+      background-color: #f8f9ff;
+    }
+    .role-option input[type="radio"] { display: none; }
+    .upload-area {
+      border: 2px dashed #e1e5e9;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .upload-area:hover { border-color: #4f46e5; background-color: #f8f9ff; }
+    .upload-area.dragover { border-color: #4f46e5; background-color: #f0f9ff; }
+    .preview-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 10px auto;
+      display: none;
+    }
+    @media (max-width: 576px) {
+      .register-card { padding: 30px 20px; margin: 10px; border-radius: 15px; }
+      .register-title { font-size: 24px; margin-bottom: 25px; }
+    }
+  </style>
+</head>
+<body class="h-100">
+
+<div class="register-container">
+  <div class="register-card">
+    <h1 class="register-title">Registrieren</h1>
+
+    <!-- Meldungen -->
+    <div id="alerts" aria-live="polite"></div>
+
+    <form id="registerForm" enctype="multipart/form-data" novalidate>
+      <!-- Foto-Upload -->
+      <div class="upload-area" id="uploadArea" role="button" tabindex="0" aria-label="Profilfoto hochladen">
+        <div id="uploadContent">
+          <i class="fas fa-camera fa-2x text-muted mb-2" aria-hidden="true"></i>
+          <p class="mb-0 text-muted">Foto hinzufügen</p>
+          <small class="text-muted">Klicken oder hierher ziehen</small>
+        </div>
+        <img id="preview" class="preview-image" alt="Profilbild-Vorschau">
+        <input type="file" id="profile_picture" accept="image/*" style="display:none;">
+      </div>
+
+      <!-- Name -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="first_name" placeholder="Vorname" required>
+            <label for="first_name">Vorname</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="last_name" placeholder="Nachname" required>
+            <label for="last_name">Nachname</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="email" placeholder="Email" required inputmode="email" autocomplete="email">
+        <label for="email">Email</label>
+      </div>
+
+      <!-- Telefon -->
+      <div class="form-floating mb-3">
+        <input type="tel" class="form-control" id="phone" placeholder="Telefon (optional)" inputmode="tel" autocomplete="tel">
+        <label for="phone">Telefon (optional)</label>
+      </div>
+
+      <!-- Rolle -->
+      <div class="role-selection">
+        <p class="text-center mb-3 fw-bold">Ich bin:</p>
+
+        <div class="role-option" data-role="student">
+          <input type="radio" name="role" value="student" id="role_student" checked>
+          <i class="fas fa-graduation-cap fa-lg text-primary" aria-hidden="true"></i>
+          <div class="mt-2">
+            <strong>Student/in</strong>
+            <small class="d-block text-muted">Ich studiere an einer Hochschule</small>
+          </div>
+        </div>
+
+        <div class="role-option" data-role="organizer">
+          <input type="radio" name="role" value="organizer" id="role_organizer">
+          <i class="fas fa-calendar-plus fa-lg text-success" aria-hidden="true"></i>
+          <div class="mt-2">
+            <strong>Organisator/in</strong>
+            <small class="d-block text-muted">Ich organisiere Events</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Passwörter -->
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="password" placeholder="Passwort" required minlength="6" autocomplete="new-password">
+        <label for="password">Passwort</label>
+      </div>
+
+      <div class="form-floating mb-4">
+        <input type="password" class="form-control" id="password_confirmation" placeholder="Passwort bestätigen" required autocomplete="new-password">
+        <label for="password_confirmation">Passwort bestätigen</label>
+      </div>
+
+      <button type="submit" class="btn btn-register">
+        <i class="fas fa-user-plus me-2" aria-hidden="true"></i>Registrieren
+      </button>
+    </form>
+
+    <div class="text-center mt-3">
+      <p>Bereits ein Konto? <a href="login.html" style="color:#4f46e5; text-decoration:none;">Anmelden</a></p>
+      <p><a href="home.html" style="color:#6b7280; text-decoration:none;">← Zur Startseite</a></p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // Hilfsfunktionen
+  const alerts = document.getElementById('alerts');
+  const createAlert = (type, html) => {
+    const div = document.createElement('div');
+    div.className = `alert alert-${type}`;
+    div.innerHTML = html;
+    return div;
+  };
+  const clearAlerts = () => alerts.innerHTML = '';
+
+  // Elemente
+  const form = document.getElementById('registerForm');
+  const firstName = document.getElementById('first_name');
+  const lastName = document.getElementById('last_name');
+  const email = document.getElementById('email');
+  const phone = document.getElementById('phone');
+  const password = document.getElementById('password');
+  const passwordConf = document.getElementById('password_confirmation');
+
+  // Rolle auswählen
+  const roleOptions = document.querySelectorAll('.role-option');
+  const roleStudent = document.getElementById('role_student');
+  const roleOrganizer = document.getElementById('role_organizer');
+
+  const setActiveRole = (role) => {
+    roleOptions.forEach(o => o.classList.remove('active'));
+    const el = document.querySelector(`.role-option[data-role="${role}"]`);
+    if (el) el.classList.add('active');
+    if (role === 'student') roleStudent.checked = true;
+    if (role === 'organizer') roleOrganizer.checked = true;
+  };
+
+  roleOptions.forEach(opt => {
+    opt.addEventListener('click', () => setActiveRole(opt.dataset.role));
+    opt.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') setActiveRole(opt.dataset.role);
+    });
+    opt.setAttribute('tabindex', '0');
+    opt.setAttribute('role', 'button');
+  });
+  // Initial
+  setActiveRole('student');
+
+  // Upload / Drag & Drop / Vorschau
+  const uploadArea = document.getElementById('uploadArea');
+  const fileInput = document.getElementById('profile_picture');
+  const preview = document.getElementById('preview');
+  const uploadContent = document.getElementById('uploadContent');
+
+  const showPreview = (file) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+      uploadContent.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  };
+
+  uploadArea.addEventListener('click', () => fileInput.click());
+  uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('dragover');
+  });
+  uploadArea.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+  });
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+    if (e.dataTransfer.files.length > 0) {
+      fileInput.files = e.dataTransfer.files;
+      showPreview(fileInput.files[0]);
+    }
+  });
+  fileInput.addEventListener('change', (e) => {
+    if (e.target.files[0]) showPreview(e.target.files[0]);
+  });
+
+  // Validierung
+  const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+  const setInvalid = (input, invalid) => {
+    input.classList.toggle('is-invalid', invalid);
+  };
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    clearAlerts();
+
+    // Reset invalid states
+    [firstName, lastName, email, password, passwordConf].forEach(el => setInvalid(el, false));
+
+    const errors = [];
+
+    if (!firstName.value.trim()) {
+      errors.push('Vorname ist erforderlich');
+      setInvalid(firstName, true);
+    }
+    if (!lastName.value.trim()) {
+      errors.push('Nachname ist erforderlich');
+      setInvalid(lastName, true);
+    }
+    if (!email.value.trim() || !isValidEmail(email.value.trim())) {
+      errors.push('Bitte eine gültige Email eingeben');
+      setInvalid(email, true);
+    }
+    if (!password.value || password.value.length < 6) {
+      errors.push('Passwort muss mindestens 6 Zeichen lang sein');
+      setInvalid(password, true);
+    }
+    if (password.value !== passwordConf.value) {
+      errors.push('Passwörter stimmen nicht überein');
+      setInvalid(passwordConf, true);
+    }
+
+    if (errors.length) {
+      const list = '<ul class="mb-0">' + errors.map(err => `<li>${err}</li>`).join('') + '</ul>';
+      alerts.appendChild(createAlert('danger', list));
+      return;
+    }
+
+    // Erfolg simulieren
+    alerts.appendChild(createAlert('success',
+      '<i class="fas fa-check-circle me-2"></i>Registrierung erfolgreich! Du kannst dich jetzt anmelden.'
+    ));
+
+    // Optional: Nachricht für die Login-Seite hinterlegen
+    try {
+      sessionStorage.setItem('success_message', 'Registrierung erfolgreich! Bitte melde dich jetzt an.');
+    } catch (e) {}
+
+    // Weiterleitung simulieren
+    setTimeout(() => {
+      window.location.href = 'login.html';
+    }, 1200);
+  });
+</script>
+
+</body>
+</html>

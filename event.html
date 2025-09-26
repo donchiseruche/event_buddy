@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="de" class="h-100">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EventBuddy - Eventdetails</title>
+
+  <!-- Bootstrap & Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    /* Hero + Farben identisch */
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 56px 0;
+    }
+    /* Navbar identique */
+    .navbar-dark { background:#0b1026 !important; }
+
+    /* Karten / Badges */
+    .event-card {
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+    .price-badge {
+      border-radius: 999px;
+      padding: .35rem .7rem;
+      font-weight: 600;
+      font-size: .95rem;
+      white-space: nowrap;
+    }
+    .badge-free { background: #e8f5e9; color: #1b5e20; }
+    .badge-paid { background: #fff3cd; color: #8a6d3b; }
+
+    .type-pill {
+      border: 1px solid #e5e7eb;
+      border-radius: 999px;
+      padding: .3rem .65rem;
+      font-size: .85rem;
+      margin-right: .35rem;
+      margin-bottom: .35rem;
+      display: inline-block;
+      background: #fff;
+    }
+
+    .organizer-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: #eef2ff;
+      color: #4338ca;
+      display:flex; align-items:center; justify-content:center;
+      font-weight: 700;
+    }
+
+    .progress {
+      height: 10px;
+      border-radius: 999px;
+      background: #eef2f7;
+    }
+
+    @media (max-width: 576px) {
+      .hero-section { padding: 48px 0; }
+    }
+  </style>
+</head>
+<body class="h-100 d-flex flex-column">
+
+  <!-- Navbar responsive (identique à index.html) -->
+  <nav class="navbar navbar-expand-md navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="index.html">EventBuddy</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+              aria-controls="mainNav" aria-expanded="false" aria-label="Navigation umschalten">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNav">
+        <!-- Gast -->
+        <ul class="navbar-nav ms-auto align-items-md-center" id="guestNav">
+          <li class="nav-item"><a class="nav-link" href="login.html">
+            <i class="fas fa-right-to-bracket me-1"></i>Anmelden</a></li>
+          <li class="nav-item ms-md-2">
+            <a class="btn btn-outline-light btn-sm mt-2 mt-md-0" href="register.html">
+              <i class="fas fa-user-plus me-1"></i>Registrieren
+            </a>
+          </li>
+        </ul>
+
+        <!-- Connecté -->
+        <ul class="navbar-nav ms-auto align-items-md-center d-none" id="userNav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="angebotDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Angebot
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="angebotDropdown">
+              <li><a class="dropdown-item" href="angebot-erstellen.html">Angebot erstellen</a></li>
+              <li><a class="dropdown-item" href="angebote.html">Liste der Angebote</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="chat.html">Chat</a></li>
+          <li class="nav-item"><a class="nav-link" href="reservations.html">Meine Reservierungen</a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html">Profil</a></li>
+          <li class="nav-item ms-md-2">
+            <a class="btn btn-light btn-sm mt-2 mt-md-0" href="#" id="logoutLink">
+              <i class="fas fa-arrow-right-from-bracket me-1"></i>Abmelden
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero mit Titel + Preis -->
+  <header class="hero-section">
+    <div class="container">
+      <a class="btn btn-light btn-sm" href="index.html">
+        <i class="fa-solid fa-arrow-left me-1"></i> Zurück zur Übersicht
+      </a>
+      <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
+        <h1 class="h3 mb-0" id="eventTitle">Event</h1>
+        <span id="priceBadge" class="price-badge"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Inhalt -->
+  <main class="container my-4 my-md-5 flex-grow-1" id="content">
+    <div id="alertsArea" class="mb-3"></div>
+
+    <div class="row gy-4">
+      <!-- Hauptkarte -->
+      <div class="col-lg-8">
+        <div class="card event-card p-3 p-md-4">
+          <div class="mb-3 text-secondary small" id="metaBlock">
+            <!-- Datum / Zeit / Ort -->
+          </div>
+
+          <p id="description" class="mb-4"></p>
+
+          <!-- Plätze -->
+          <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <strong>Plätze</strong>
+              <span class="text-muted" id="seatsText">0/0</span>
+            </div>
+            <div class="progress">
+              <div id="seatsProgress" class="progress-bar" role="progressbar"
+                   style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+          <!-- Aktion -->
+          <div class="d-flex gap-2 mt-3">
+            <button id="joinBtn" class="btn btn-primary">
+              <i class="fa-solid fa-ticket me-1"></i> Teilnehmen
+            </button>
+            <button class="btn btn-outline-secondary" disabled title="Demnächst">
+              <i class="fa-regular fa-bookmark me-1"></i> Merken
+            </button>
+          </div>
+
+          <!-- Typen -->
+          <hr class="my-4"/>
+          <div id="typesBlock" class="d-flex flex-wrap"></div>
+        </div>
+      </div>
+
+      <!-- Veranstalter -->
+      <div class="col-lg-4">
+        <div class="card event-card p-3 p-md-4">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="organizer-avatar" id="orgAvatar">V</div>
+            <div>
+              <div class="fw-semibold" id="orgName">Veranstalter</div>
+              <div class="text-muted small" id="orgRatings">
+                <!-- Sterne + Anzahl -->
+              </div>
+            </div>
+          </div>
+          <div class="small">
+            <div class="mb-2"><i class="fa-regular fa-envelope me-2"></i><a id="orgEmail" href="#"></a></div>
+            <div><i class="fa-solid fa-phone me-2"></i><a id="orgPhone" href="#"></a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-dark text-light py-4 mt-auto">
+    <div class="container text-center">
+      <p>&copy; <span id="year"></span> EventBuddy. Alle Rechte vorbehalten.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Footer-Jahr
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // === Auth ===
+    function isLoggedIn() { return localStorage.getItem('eb_auth') === 'true'; }
+    function updateNav() {
+      const guestNav = document.getElementById('guestNav');
+      const userNav  = document.getElementById('userNav');
+      if (isLoggedIn()) { guestNav?.classList.add('d-none'); userNav?.classList.remove('d-none'); }
+      else { userNav?.classList.add('d-none'); guestNav?.classList.remove('d-none'); }
+    }
+    function setupLogout() {
+      document.getElementById('logoutLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('eb_auth');
+        localStorage.removeItem('eb_user');
+        window.location.href = 'index.html';
+      });
+    }
+
+    // Bloquer l'accès si non connecté
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!isLoggedIn()) {
+        window.location.replace('login.html');
+        return;
+      }
+      updateNav();
+      setupLogout();
+      loadAndRender();
+    });
+
+    // === Helpers ===
+    function getIdFromQuery() {
+      const p = new URLSearchParams(window.location.search);
+      return p.get('id');
+    }
+    const formatPrice = (p) => p === 0 ? 'Gratis' : `${p} €`;
+    const priceBadgeClass = (p) => p === 0 ? 'badge-free' : 'badge-paid';
+
+    function starsHTML(rating) {
+      // 0..5 avec demi arrondi
+      const full = Math.floor(rating);
+      const half = rating - full >= 0.5 ? 1 : 0;
+      const empty = 5 - full - half;
+      return (
+        '<span class="text-warning">' +
+        '★'.repeat(full) +
+        (half ? '☆' : '') +
+        '</span>' +
+        (empty ? '<span class="text-muted">' + '★'.repeat(empty) + '</span>' : '')
+      );
+    }
+    const RES_KEY = 'eb_reservations';
+
+    // === State pour la simulation des réservations ===
+    let EVENT = null;
+
+    function getUser() {
+      try { return JSON.parse(localStorage.getItem('eb_user') || '{}'); }
+      catch { return {}; }
+    }
+    function getReservations() {
+      try { return JSON.parse(localStorage.getItem(RES_KEY) || '[]'); }
+      catch { return []; }
+    }
+    function setReservations(list) {
+      localStorage.setItem(RES_KEY, JSON.stringify(list));
+    }
+    function hasReservation(eventId, email) {
+      const all = getReservations();
+      return !!all.find(r => r.eventId === eventId && r.email === email);
+    }
+
+    async function loadAndRender() {
+      const id = getIdFromQuery();
+      const alertsArea = document.getElementById('alertsArea');
+      if (!id) {
+        alertsArea.innerHTML = '<div class="alert alert-warning">Kein Event angegeben.</div>';
+        return;
+      }
+
+      try {
+        const res = await fetch('events.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const events = await res.json();
+
+        EVENT = events.find(e => String(e.id) === String(id));
+        if (!EVENT) {
+          alertsArea.innerHTML = '<div class="alert alert-info">Event nicht gefunden.</div>';
+          return;
+        }
+        renderEvent(EVENT);
+      } catch (err) {
+        console.error(err);
+        alertsArea.innerHTML = '<div class="alert alert-danger">Fehler beim Laden der Eventdetails.</div>';
+      }
+    }
+
+    function updateJoinButtonState() {
+      const btn = document.getElementById('joinBtn');
+      if (!btn || !EVENT) return;
+
+      const user = getUser();
+      const total = Number(EVENT.seatsTotal || 0);
+      const reserved = Number(EVENT.seatsReserved || 0);
+      const isFull = total > 0 && reserved >= total;
+      const already = user?.email ? hasReservation(EVENT.id, user.email) : false;
+
+      btn.disabled = isFull || already;
+
+      // styles / libellés
+      btn.classList.toggle('btn-primary', !isFull && !already);
+      btn.classList.toggle('btn-secondary', already);
+      btn.innerHTML = isFull
+        ? '<i class="fa-solid fa-ban me-1"></i> Ausgebucht'
+        : (already
+          ? '<i class="fa-regular fa-circle-check me-1"></i> Bereits reserviert'
+          : '<i class="fa-solid fa-ticket me-1"></i> Teilnehmen');
+    }
+
+    function renderEvent(ev) {
+      // Header
+      document.getElementById('eventTitle').textContent = ev.title;
+      const priceBadge = document.getElementById('priceBadge');
+      priceBadge.textContent = formatPrice(ev.price);
+      priceBadge.className = 'price-badge ' + priceBadgeClass(ev.price);
+
+      // Meta
+      document.getElementById('metaBlock').innerHTML = `
+        <div class="mb-1">
+          <i class="fa-regular fa-calendar me-2"></i>${ev.date}
+          &nbsp; <i class="fa-regular fa-clock ms-2 me-2"></i>${ev.time}
+        </div>
+        <div><i class="fa-solid fa-location-dot me-2"></i>${ev.location}</div>
+      `;
+
+      // Description
+      document.getElementById('description').textContent = ev.description;
+
+      // Plätze
+      updateSeatsUI(ev);
+
+      // Typen
+      const typesBlock = document.getElementById('typesBlock');
+      typesBlock.innerHTML = '';
+      (ev.types || []).forEach(t => {
+        const span = document.createElement('span');
+        span.className = 'type-pill';
+        span.textContent = t;
+        typesBlock.appendChild(span);
+      });
+
+      // Veranstalter
+      document.getElementById('orgName').textContent = ev.organizer?.name || '—';
+      const initials = (ev.organizer?.name || 'V')
+        .split(' ')
+        .map(s => s[0])
+        .slice(0,2)
+        .join('')
+        .toUpperCase();
+      document.getElementById('orgAvatar').textContent = initials;
+
+      const rating = ev.organizer?.rating ?? 0;
+      const reviews = ev.organizer?.reviewsCount ?? 0;
+      document.getElementById('orgRatings').innerHTML =
+        `${starsHTML(rating)} <span class="ms-1">${rating.toFixed(1)} · ${reviews} Bewertungen</span>`;
+
+      const email = ev.organizer?.email || '';
+      const phone = ev.organizer?.phone || '';
+      const mailLink = email ? `mailto:${email}` : '#';
+      const phoneLink = phone ? `tel:${phone.replace(/\s+/g,'')}` : '#';
+      const orgEmail = document.getElementById('orgEmail');
+      const orgPhone = document.getElementById('orgPhone');
+      orgEmail.textContent = email || '—';
+      orgEmail.href = mailLink;
+      orgPhone.textContent = phone || '—';
+      orgPhone.href = phoneLink;
+
+      // Handlung: Teilnehmen
+      document.getElementById('joinBtn').onclick = onJoin;
+      updateJoinButtonState();
+    }
+
+    function updateSeatsUI(ev) {
+      const total = Number(ev.seatsTotal || 0);
+      const reserved = Number(ev.seatsReserved || 0);
+      const percent = total > 0 ? Math.min(100, Math.round((reserved / total) * 100)) : 0;
+
+      document.getElementById('seatsText').textContent = `${reserved} / ${total}`;
+      const bar = document.getElementById('seatsProgress');
+      bar.style.width = percent + '%';
+      bar.setAttribute('aria-valuenow', String(percent));
+      bar.classList.toggle('bg-success', percent < 70);
+      bar.classList.toggle('bg-warning', percent >= 70 && percent < 90);
+      bar.classList.toggle('bg-danger', percent >= 90);
+      updateJoinButtonState();
+    }
+
+    function showAlert(type, html) {
+      const area = document.getElementById('alertsArea');
+      const div = document.createElement('div');
+      div.className = `alert alert-${type} alert-dismissible fade show`;
+      div.innerHTML = html + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+      area.innerHTML = '';
+      area.appendChild(div);
+    }
+
+    function onJoin() {
+      if (!EVENT) return;
+
+      const user = getUser();
+      if (!user?.email) {
+        showAlert('info', 'Bitte zuerst <a href="login.html" class="alert-link">anmelden</a>.');
+        return;
+      }
+
+      // Déjà réservé ?
+      if (hasReservation(EVENT.id, user.email)) {
+        showAlert('secondary', '<i class="fa-regular fa-circle-check me-2"></i>Sie haben dieses Event bereits reserviert.');
+        updateJoinButtonState();
+        return;
+      }
+
+      // Capacités
+      const total = Number(EVENT.seatsTotal || 0);
+      const reserved = Number(EVENT.seatsReserved || 0);
+      if (reserved >= total && total > 0) {
+        showAlert('warning', '<i class="fa-solid fa-circle-exclamation me-2"></i>Leider sind keine Plätze mehr verfügbar.');
+        updateJoinButtonState();
+        return;
+      }
+
+      // Enregistrer dans localStorage avec PLUS d’infos
+      const all = getReservations();
+      const reservation = {
+        eventId: EVENT.id,
+        title: EVENT.title,
+        price: EVENT.price,
+        date: EVENT.date,
+        time: EVENT.time,
+        location: EVENT.location,
+        types: EVENT.types || [],
+        organizer: EVENT.organizer ? {
+          name: EVENT.organizer.name || null,
+          email: EVENT.organizer.email || null,
+          phone: EVENT.organizer.phone || null,
+          reviewsCount: EVENT.organizer.reviewsCount ?? null,
+          rating: EVENT.organizer.rating ?? null
+        } : null,
+        seatsTotal: EVENT.seatsTotal ?? null,
+        seatsReservedAtBooking: reserved + 1, // état au moment de la réservation
+        email: user.email,
+        bookedAt: new Date().toISOString()
+      };
+      all.push(reservation);
+      setReservations(all);
+
+      // Simuler MAJ places (UI only)
+      EVENT.seatsReserved = reserved + 1;
+      updateSeatsUI(EVENT);
+      updateJoinButtonState();
+      showAlert('success', '<i class="fa-solid fa-check-circle me-2"></i>Reservierung erfolgreich!');
+    }
+
+  </script>
+</body>
+</html>
