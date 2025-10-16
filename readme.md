@@ -1,6 +1,6 @@
 # EventBuddy
 
-EventBuddy ist eine moderne Webanwendung für Studierende, um Events und Angebote (z. B. Unterkünfte oder Fahrten) einfach zu entdecken, zu reservieren und miteinander in Kontakt zu treten.  
+EventBuddy ist eine Webanwendung für Studierende, um Events und Angebote (z. B. Unterkünfte oder Fahrten) einfach zu entdecken, zu reservieren und miteinander in Kontakt zu treten.  
 Das Projekt ist vollständig in **HTML, CSS und JavaScript** umgesetzt und speichert Zustände (Authentifizierung, Reservierungen, Profilinformationen) **clientseitig im LocalStorage**.
 
 ---
@@ -9,7 +9,6 @@ Das Projekt ist vollständig in **HTML, CSS und JavaScript** umgesetzt und speic
 
 - **Frontend**  
   - Reines HTML/CSS/JS, responsive mit [Bootstrap 5](https://getbootstrap.com) und [Font Awesome](https://fontawesome.com).  
-  - Keine serverseitige Logik – Simulation von Login, Registrierung, Chat und Reservierungen erfolgt vollständig im Browser.  
 
 - **Persistenz (Simulation)**  
   - `localStorage` wird genutzt für Authentifizierungsstatus, Userprofil, Reservierungen und Nachrichten.  
@@ -56,7 +55,7 @@ Das Projekt ist für **statisches Hosting** konzipiert und benötigt keinen Anwe
 
 EventBuddy ist modular aufgebaut. Typische Erweiterungspunkte:
 
-* **Backend-Anbindung**: Ersetzen der LocalStorage-Simulation durch eine REST- oder GraphQL-API.
+* **Backend-Anbindung**: Ersetzen der LocalStorage-Simulation durch eine REST-API.
 * **Authentifizierung**: Integration von OAuth 2.0 oder OpenID Connect.
 * **Echte Datenbank**: Speicherung von Events, Angeboten und Reservierungen in einer relationalen DB oder NoSQL.
 * **Realtime**: Nutzung von WebSockets für den Chat.
